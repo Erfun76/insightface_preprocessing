@@ -2,7 +2,7 @@ import os
 import pathlib
 import random
 
-root = "dataset_112x112_cleaned/valid"
+root = "dataset_112x112_cleaned_2/valid"
 for path, subdirs, files in os.walk(root):
     i = 1
     for name in files:

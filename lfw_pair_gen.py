@@ -41,7 +41,8 @@ class GeneratePairs:
                 if file == ".DS_Store":
                     continue
                 a.append(file)
-
+            if not a:
+                continue
             with open(self.pairs_filepath, "a") as f:
                 for i in range(3):
                     temp = random.choice(a).split("_") # This line may vary depending on how your images are named.
