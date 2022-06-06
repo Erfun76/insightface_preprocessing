@@ -143,7 +143,7 @@ class Yolo5Detector:
                     class_num = det[j, 15].cpu().numpy()
                     bbox = get_bbox(orgimg, xywh, conf, landmarks, class_num)
                     landmark = get_landmark(orgimg, xywh, conf, landmarks, class_num)
-                    prediction_list.append({'bbox':bbox, 'kps':landmark})
+                    prediction_list.append({'bbox':bbox, 'kps':landmark, 'det_score':conf})
                     
         return prediction_list
 

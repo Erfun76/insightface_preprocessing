@@ -89,11 +89,11 @@ if __name__ == '__main__':
                 face_idx = np.argmax(similarity_list)
                 face_sim = np.max(similarity_list)
 
-                face1 = face_feature_extractor.norm_crop(im, faces[face_idx]['kps'])
+                face1 = face_feature_extractor.norm_crop(im, np.array(faces[face_idx]['kps']))
                 # dictionary of face detection
                 parser_dict = [{"points":torch.tensor([faces[face_idx]['kps']]).to(device='cuda'),\
                      "rects": torch.tensor(faces[face_idx]['bbox']).to(device='cuda'),\
-                          "score":torch.tensor([faces[face_idx]['det_score']]).to(device='cuda')}]
+                          "score":torch.tensor([float(faces[face_idx]['det_score'])]).to(device='cuda')}]
 
                 face_parsing = parser.parse(im, parser_dict)
                 brightness = imageMetric.calc_brightness(face1)

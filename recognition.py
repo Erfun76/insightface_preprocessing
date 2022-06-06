@@ -15,7 +15,7 @@ arcface_src = np.array([
 
 
 class FaceFeature():
-    def __init__(self, face_detector, recognition_model_name = "r100",recognition_weight="./models/weights/best_model.pt" ,mode="arcface"):
+    def __init__(self, face_detector, recognition_model_name = "r100",recognition_weight="./model/weights/best_model.pt" ,mode="arcface"):
         
         self.device = torch.device("cuda") if torch.cuda.is_available() else torch.device('cpu')
         print(self.device)
@@ -32,7 +32,8 @@ class FaceFeature():
         detections = self.face_detector.get(image)
         if detections:
             for detection in detections:
-                face_crop = append(self.__norm_crop(image, np.array(detection['kps'])))
+                d = np.array(detection['kps'])
+                face_crop = self.norm_crop(image, d)
                 img = cv2.cvtColor(face_crop, cv2.COLOR_BGR2RGB)
                 img = np.transpose(img, (2, 0, 1))
                 img = torch.from_numpy(img).unsqueeze(0).float()
@@ -40,7 +41,7 @@ class FaceFeature():
                 img = img.to(self.device)
                 feature = self.net(img).cpu().numpy()
                 norm_features.append(feature[0]/l2norm(feature[0]))
-                return norm_features, detections
+            return norm_features, detections
         else: 
             return None
 
