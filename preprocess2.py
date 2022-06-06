@@ -1,3 +1,4 @@
+import sys
 from insightface.app import FaceAnalysis
 import numpy as np
 import cv2
@@ -5,8 +6,9 @@ from skimage import transform as trans
 import os
 from tqdm import tqdm
 from auto_capture import CameraMetric
-from .recognition import FaceFeature
-from .yolo5.detector import Yolo5Detector
+from recognition import FaceFeature
+sys.path.insert(0, "./yolo5/models")
+from yolo5.detector import Yolo5Detector
 from sklearn.cluster import DBSCAN
 from collections import Counter
 from face_parser import FaceParser
@@ -33,15 +35,15 @@ def validate_image(similarity, face_parsing, brightness, sharpness):
 #app = FaceAnalysis(name = 'buffalo_s', allowed_modules=['detection', 'recognition'])
 #app.prepare(ctx_id=0, det_size=(640,640))
 face_detector = Yolo5Detector()
-face_feature_ectractor = FaceFeature(face_detector)
+face_feature_extractor = FaceFeature(face_detector)
 
 imageMetric = CameraMetric()
 parser = FaceParser()
 
 # HyperParmeter
 dataset_path = 'dataset'
-dataset_output = 'dataset_112x112_cleaned_2'
-dataset_temp = 'dataset_112x112_temp_2'
+dataset_output = 'dataset_112x112_cleaned_3'
+dataset_temp = 'dataset_112x112_temp_3'
 brightness_max_thresh = 200
 brightness_min_thresh = 60
 sharpness_min_thresh = 90
@@ -60,7 +62,7 @@ for i, f1 in enumerate(os.listdir(dataset_path)):
     for f2 in os.listdir(dir):
         im_path = os.path.join(dir, f2)
         im = cv2.imread(im_path)
-        feats, _ = face_feature_ectractor.get(im)
+        feats, _ = face_feature_extractor.get(im)
 
         if feats:
             feat = feats[0]
@@ -78,7 +80,7 @@ for i, f1 in enumerate(os.listdir(dataset_path)):
     for f2 in os.listdir(dir):
         im_path = os.path.join(dir, f2)
         im = cv2.imread(im_path)
-        feats, faces = face_feature_ectractor.get(im)
+        feats, faces = face_feature_extractor.get(im)
         
         similarity_list = []
         if feats:
@@ -87,7 +89,7 @@ for i, f1 in enumerate(os.listdir(dataset_path)):
             face_idx = np.argmax(similarity_list)
             face_sim = np.max(similarity_list)
 
-            face1 = face_feature_ectractor.norm_crop(im, faces[face_idx]['kps'])
+            face1 = face_feature_extractor.norm_crop(im, faces[face_idx]['kps'])
             # dictionary of face detection
             parser_dict = [{"points":torch.tensor([faces[face_idx]['kps']]).to(device='cuda'),\
                  "rects": torch.tensor(faces[face_idx]['bbox']).to(device='cuda'),\

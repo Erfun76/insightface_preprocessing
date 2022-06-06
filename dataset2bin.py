@@ -16,6 +16,7 @@ args = parser.parse_args()
 lfw_dir = args.data_dir
 image_size = [int(x) for x in args.image_size.split(',')]
 lfw_pairs = lfw.read_pairs(os.path.join(lfw_dir, 'pairs.txt'))
+
 lfw_paths, issame_list = lfw.get_paths(lfw_dir, lfw_pairs, 'jpg') # or jpg
 lfw_bins = []
 #lfw_data = nd.empty((len(lfw_paths), 3, image_size[0], image_size[1]))
