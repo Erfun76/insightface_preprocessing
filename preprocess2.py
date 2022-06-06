@@ -45,7 +45,7 @@ dataset_temp = 'dataset_112x112_temp_2'
 brightness_max_thresh = 200
 brightness_min_thresh = 60
 sharpness_min_thresh = 90
-similarity_thresh = 0.2
+similarity_thresh = 0.5
 mode = 0 # mode 0 just distance ,mode 1 clustering
 dist_threshold = 0.6 # threshold for clustering mode 1
 
