@@ -104,7 +104,7 @@ if __name__ == '__main__':
                     cv2.imwrite(output_file_dir,face1)
                 else:
                     temp_file_dir = os.path.join(temp_dir, f2)
-                    cv2.imwrite(temp_file_dir,face1)
+                    cv2.imwrite(temp_file_dir,im)
             torch.cuda.empty_cache()
         pbar.update(1)
     pbar.close()
