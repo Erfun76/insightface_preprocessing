@@ -3,7 +3,7 @@ from skimage import transform as trans
 import numpy as np
 import torch
 from numpy.linalg import norm as l2norm
-from models.backbones import get_model
+from model.backbones import get_model
 
 
 arcface_src = np.array([

@@ -10,6 +10,11 @@ from numpy import random
 import copy
 
 from .  import config
+import os
+cwd = os.path.abspath(os.path.join(__file__, os.pardir))
+import sys
+print(cwd)
+sys.path.append(cwd)
 
 from .models.experimental import attempt_load
 from .utils.datasets import letterbox
@@ -58,7 +63,7 @@ def get_bbox(img, xywh, conf, landmarks, class_num):
     x2 = int(xywh[0] * w + 0.5 * xywh[2] * w)
     y2 = int(xywh[1] * h + 0.5 * xywh[3] * h)
     
-    bbox = [x1,y1, x2, y2]
+    bbox = [x1,y1, x2-x1, y2-y1]
     
     return bbox
 
@@ -138,7 +143,7 @@ class Yolo5Detector:
                     class_num = det[j, 15].cpu().numpy()
                     bbox = get_bbox(orgimg, xywh, conf, landmarks, class_num)
                     landmark = get_landmark(orgimg, xywh, conf, landmarks, class_num)
-                    prediction_list.append({'bbox':bbox, 'kps':landmark, 'det_score':conf})
+                    prediction_list.append({'bbox':bbox, 'kps':landmark})
                     
         return prediction_list
 
