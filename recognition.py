@@ -15,6 +15,9 @@ arcface_src = np.array([
 
 
 class FaceFeature():
+    '''
+    A module to extract features from face
+    '''
     def __init__(self, face_detector, recognition_model_name = "r100",recognition_weight="./model/weights/best_model.pt" ,mode="arcface"):
         
         self.device = torch.device("cuda") if torch.cuda.is_available() else torch.device('cpu')
